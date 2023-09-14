@@ -21,7 +21,6 @@ class PersonController extends Controller {
         return array_merge(
                 parent::behaviors(),
                 [
-                    
                     'verbs' => [
                         'class' => VerbFilter::className(),
                         'actions' => [
@@ -39,7 +38,9 @@ class PersonController extends Controller {
      */
     public function actionIndex() {
         $searchModel = new PersonSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $searchModel->created_by = \Yii::$app->user->isGuest?'xxx':\Yii::$app->user->identity->username;
+        //$dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = $searchModel->search(null);
 
         return $this->render('index', [
                     'searchModel' => $searchModel,
