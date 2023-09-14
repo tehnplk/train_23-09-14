@@ -64,17 +64,12 @@ class Person extends \yii\db\ActiveRecord
     
     public function behaviors() {
         return [
-            [
-                'class' => \yii\behaviors\TimestampBehavior::class,
-                'createdAtAttribute' => 'created_at',
-                'updatedAtAttribute' => 'updated_at',
-                'value' => new \yii\db\Expression('NOW()'),
-            ],
+            
             [
                 'class' => \yii\behaviors\BlameableBehavior::class,
                 'createdByAttribute' => 'created_by',
-                'updatedByAttribute' => 'updated_by',
-                'value'=>Yii::$app->user->isGuest?null:Yii::$app->user->identity->username
+                //'updatedByAttribute' => 'updated_by',
+                'value'=>Yii::$app->user->isGuest?'fff':Yii::$app->user->identity->username
             ],
         ];
     }

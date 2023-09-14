@@ -147,6 +147,8 @@ class DataTest extends \yii\db\ActiveRecord
             'checkuser_id' => 'Checkuser ID',
         ];
     }
+    
+    
 
     /**
      * Gets query for [[Checkuser]].
