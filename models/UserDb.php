@@ -13,9 +13,7 @@ use yii\web\IdentityInterface;
  * @property string $id
  * @property string $username
  * @property string $password
- * @property string $hoscode
  * @property string $auth_key
- * @property string $onestop
  * @property string $role
  * @property string $fullname
  * @property string $last
@@ -36,9 +34,9 @@ class UserDb extends ActiveRecord implements IdentityInterface {
      */
     public function rules() {
         return [
-                [['username', 'password', 'id'], 'required'],
-                [['username', 'password'], 'string', 'max' => 100],
-                [['hoscode', 'auth_key', 'onestop', 'role', 'fullname', 'last', 'last_session', 'last_ip'], 'string']
+            [['username', 'password', 'id'], 'required'],
+            [['username', 'password'], 'string', 'max' => 100],
+            [['auth_key', 'role', 'fullname', 'last', 'last_session', 'last_ip'], 'string']
         ];
     }
 
@@ -50,7 +48,6 @@ class UserDb extends ActiveRecord implements IdentityInterface {
             'id' => 'UserId',
             'username' => 'Username',
             'password' => 'Password',
-            'hoscode' => 'รหัสหน่วยบริการ',
             'last' => 'เข้าใช้เมื่อ',
             'role' => 'กลุ่มสิทธิการใช้งาน'
         ];
@@ -125,20 +122,12 @@ class UserDb extends ActiveRecord implements IdentityInterface {
         return $this->auth_key;
     }
 
-    public function getHoscode() {
-        return $this->hoscode;
-    }
-
     public function getFullname() {
         return $this->fullname;
     }
 
     public function getRole() {
         return $this->role;
-    }
-
-    public function getOnestop() {
-        return strtolower($this->onestop) === 'yes';
     }
 
     public function getLastSession() {
@@ -162,7 +151,7 @@ class UserDb extends ActiveRecord implements IdentityInterface {
      * @param  string  $password password to validate
      * @return boolean if password provided is valid for current user
      */
-    public function validatePassword($password) {
+    public function validatePassword($password) {        
         return $this->password === $password;
     }
 

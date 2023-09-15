@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use app\components\MyRole;
 
 /**
  * PersonController implements the CRUD actions for Person model.
@@ -21,6 +22,17 @@ class PersonController extends Controller {
         return array_merge(
                 parent::behaviors(),
                 [
+                    'access' => [
+                        'class' => AccessControl::className(),
+                        'only' => ['index', 'view', 'create', 'update', 'delete'],
+                        'rules' => [
+                            [
+                                'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                                'allow' => MyRole::can_adm(),
+                                'roles' => ['@'],
+                            ],
+                        ],
+                    ],
                     'verbs' => [
                         'class' => VerbFilter::className(),
                         'actions' => [
@@ -38,7 +50,7 @@ class PersonController extends Controller {
      */
     public function actionIndex() {
         $searchModel = new PersonSearch();
-        $searchModel->created_by = \Yii::$app->user->isGuest?'xxx':\Yii::$app->user->identity->username;
+        $searchModel->created_by = \Yii::$app->user->isGuest ? 'xxx' : \Yii::$app->user->identity->username;
         //$dataProvider = $searchModel->search($this->request->queryParams);
         $dataProvider = $searchModel->search(null);
 
